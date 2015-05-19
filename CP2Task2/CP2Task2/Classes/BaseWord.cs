@@ -10,8 +10,24 @@ namespace CP2Task2.Classes
 {
     public class BaseWord : IBaseWord
     {
-        public char Letter { get; set; }
-        public string Word { get; set; }
+        private char _letter;
+        private string _word;
+
+
+        public char Letter {
+            get { return _letter; }
+        }
+
+        public string Word
+        {
+            get { return _word; }
+            set
+            {
+                _word = value.ToLower();
+                _letter = value.ToUpper()[0]; // Вносим первую прописную букву
+            }
+        }
+
         public int Amount { get; set; }
         public ArrayList Pages { get; set; }
     }

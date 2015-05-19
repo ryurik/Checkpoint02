@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace CP2Task2.Classes
 
         public BaseWord ParseBaseWord(string word)
         {
-            return _word.Single(x => x.Word.ToLower().Equals(word.ToLower()));
+            return _word.Any(x => x.Word.ToLower().Equals(word.ToLower())) ? _word.Where(x => x.Word.ToLower().Equals(word.ToLower())).ToArray()[0] : null;
         }
 
         public void InsertWord(string word, int line)
@@ -29,8 +30,7 @@ namespace CP2Task2.Classes
             }
             else
             {
-                baseWord = new BaseWord();
-                baseWord.Amount = 1;
+                baseWord = new BaseWord() {Word = word, Amount = 1, Pages = new ArrayList()};
                 baseWord.Pages.Add(page);
                 _word.Add(baseWord);
             } 

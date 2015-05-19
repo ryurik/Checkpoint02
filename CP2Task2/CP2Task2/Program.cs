@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CP2Task2.Classes;
 
@@ -11,9 +12,9 @@ namespace CP2Task2
     class Program
     {
         // разделители
-        public static char[] SplitChars = {' ', ',', '.', ':', '\t'};
+        public static char[] SplitChars = {' ', ',', '.', ':', '\t', '\\', '"', '-', '!', '@', '?', '*','(', ')', '[', ']', '{', '}', '|', '/', '+','_', '&', ';', '='};
         // кол-во строк на странице
-        public static int LineAmountPerPage = 80;
+        public static int LineAmountPerPage = 5;
 
 
         static void Main(string[] args)
@@ -27,12 +28,15 @@ namespace CP2Task2
                 string readLine = null;
                 while ((readLine = s.ReadLine()) != null)
                 {
-                    string[] split = readLine.Split(SplitChars, StringSplitOptions.RemoveEmptyEntries);
+                    // можно ReExp сделать сплит, но 1 - в MSDN ссылается, что это тоже самое, а второе нужно регулярку подобрать Regex.Split(sentence, @"\W")
+                    // string[] split = readLine.Split(SplitChars, StringSplitOptions.RemoveEmptyEntries);
+                    string[] split = Regex.Split(readLine, @"\W"); // разбить по словам?
                     foreach (var word in split)
                     {
-                        concordance.InsertWord(word, line);        
+                        if (word.Length > 0)
+                            concordance.InsertWord(word, line);        
                     }
-                    Console.WriteLine(readLine);
+                    //Console.WriteLine(readLine);
                     line++;
                 }
                 
@@ -40,6 +44,16 @@ namespace CP2Task2
             finally
             {
                 s.Close();
+            }
+
+            foreach (var w in concordance)
+            {
+                Console.Write("{0}{1}{2} : ", w.Word, new String('.', (30 - w.Word.Length - w.Amount.ToString().Length)), w.Amount);
+                foreach (var p in w.Pages)
+                {
+                    Console.Write("{0} ", p);
+                }
+                Console.WriteLine();
             }
             Console.ReadKey();
         }
