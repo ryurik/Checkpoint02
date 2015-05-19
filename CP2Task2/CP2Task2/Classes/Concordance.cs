@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace CP2Task2.Classes
 {
-    class Concordance : ICollection<BaseWord>
+    public class Concordance : ICollection<BaseWord>
     {
+        // нужно будет сделать сортировку по Первой букве
         private readonly ICollection<BaseWord> _word = new List<BaseWord>();
 
         public BaseWord ParseBaseWord(string word)
@@ -17,19 +18,20 @@ namespace CP2Task2.Classes
 
         public void InsertWord(string word, int line)
         {
+            int page = line/Program.LineAmountPerPage + 1; // получаем страницу
             BaseWord baseWord = ParseBaseWord(word);
 
             if (baseWord != null)
             {
                 baseWord.Amount++;
-                if (!baseWord.Lines.Contains(line))
-                    baseWord.Lines.Add(line);
+                if (!baseWord.Pages.Contains(page))
+                    baseWord.Pages.Add(page);
             }
             else
             {
                 baseWord = new BaseWord();
                 baseWord.Amount = 1;
-                baseWord.Lines.Add(line);
+                baseWord.Pages.Add(page);
                 _word.Add(baseWord);
             } 
         }

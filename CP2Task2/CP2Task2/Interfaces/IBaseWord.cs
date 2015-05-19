@@ -7,6 +7,6 @@ namespace CP2Task2.Interfaces
         char Letter { get; }
         string Word { get; }
         int Amount { get; }
-        ArrayList Lines { get; }
+        ArrayList Pages { get; }
     }
 }

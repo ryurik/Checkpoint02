@@ -13,6 +13,6 @@ namespace CP2Task2.Classes
         public char Letter { get; set; }
         public string Word { get; set; }
         public int Amount { get; set; }
-        public ArrayList Lines { get; set; }
+        public ArrayList Pages { get; set; }
     }
 }
