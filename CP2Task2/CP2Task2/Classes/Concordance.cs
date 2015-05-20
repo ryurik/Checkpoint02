@@ -10,7 +10,7 @@ namespace CP2Task2.Classes
     public class Concordance : ICollection<BaseWord>
     {
         // нужно будет сделать сортировку по Первой букве
-        private readonly ICollection<BaseWord> _word = new List<BaseWord>();
+        private ICollection<BaseWord> _word = new List<BaseWord>();
 
         public BaseWord ParseBaseWord(string word)
         {
@@ -36,6 +36,23 @@ namespace CP2Task2.Classes
             } 
         }
 
+        protected void Sort(IComparer<BaseWord> comparer)
+        {
+            var newList = _word.ToList();
+            newList.Sort(comparer);
+            _word = newList;
+        }
+
+
+        public void SortByAsc()
+        {
+            Sort(new WordComparerByAsc());
+        }
+
+        public void SortByAmount()
+        {
+            Sort(new WordComparerByAmount());
+        }
         #region ICollection<BaseWord>
         public void Add(BaseWord item)
         {
